@@ -31,4 +31,4 @@ const canPermutePalindrome = (s) => {
     return valid;
 };
 
-console.log(canPermutePalindrome('as'));
+console.log(canPermutePalindrome('aas'));
