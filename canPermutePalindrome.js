@@ -38,3 +38,23 @@ const canPermutePalindrome = (s) => {
 };
 
 console.log(canPermutePalindrome('aas'));
+
+const canPermutePalindrome2 = (s) => {
+    if (s.length === 1) return true;
+    
+    const bucket = {};
+
+    s.split('').forEach(char => {
+        if (bucket[char] === undefined){
+            bucket[char] = true;
+        }else{
+            delete bucket[char];
+        }
+    });
+
+    let keysLength = Object.keys(bucket).length;
+    
+    return keysLength === 1 || keysLength === 0;
+};
+
+console.log(canPermutePalindrome2('aas'));
