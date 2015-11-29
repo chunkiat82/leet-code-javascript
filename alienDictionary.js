@@ -24,20 +24,13 @@
 // create an empty graph
 
 
-var input = [
-    "wrt",
-    "wrf",
-    "er",
-    "ett",
-    "rftt"
-];
-
+var input1 = [ "wrt", "wrf", "er", "ett", "rftt" ];
 var input2 = ["vlxpwiqbsg","cpwqwqcd"];
 var input3 = ["z","x"];
 var input3 = ["z","z"];
 var input4 = ["aac","aabb","aaba"];
 var input5 = ["zy","zx"];
-
+var input6 = ["a","b","a"];
 var alienOrder = function(words) {
 
     var graph = {};
@@ -62,8 +55,12 @@ var alienOrder = function(words) {
             graph[cur] = {
                 value: cur,
                 next: next,
-                count: 1
+                count: 1,
+                loop: false
             };
+            if( graph[next] !== undefined){
+                graph[next].loop = true;
+            }  
              // console.log("graph[cur]="+JSON.stringify(graph[cur]));
         } else {
             var node = graph[cur];
@@ -85,17 +82,19 @@ var alienOrder = function(words) {
 
     function prune(graph){
         
-        var prune = true;
+        var pruneYes = true;
         Object.keys(graph).forEach(key => {
-            if (prune && (graph[key].count === words.length)){
+            if (pruneYes && (graph[key].count === words.length) && graph[key].loop){
                 delete graph[key];
             }else{
-                prune=false;                
+                pruneYes=false;                
             }
         });
     }
 
     function sort(graph) {
+        var loopFound = false;
+
         Object.keys(graph).forEach(key => {
             if (final.indexOf(key) < 0 && final.indexOf(graph[key].next) < 0) {
                 final.push(key);
@@ -112,13 +111,18 @@ var alienOrder = function(words) {
                     }
                 }
             }
-           
+            //loopFound = loopFound || graph[key].loop;
         })
+
+        if (loopFound){
+            final = [];
+        }
     }
     prune(graph);
+    console.log(graph);
     sort(graph);
 
-    if (Object.keys(graph).length===0){
+    if (Object.keys(graph).length===0 && final.length > 0 ){
         words.forEach(x=>{
             if (final.indexOf(x) < 0 ){
                 final.push(x);
@@ -130,4 +134,4 @@ var alienOrder = function(words) {
     
     
 }
-console.log(alienOrder(input5));
+console.log(alienOrder(input));

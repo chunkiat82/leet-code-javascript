@@ -24,18 +24,13 @@
 // create an empty graph
 
 
-var input = [
-    "wrt",
-    "wrf",
-    "er",
-    "ett",
-    "rftt"
-];
-
-var input2 = ["vlxpwiqbsg","cpwqwqcd"];
-var input3 = ["z","x"];
-var input3 = ["z","z"];
-var input4 = ["aac","aabb","aaba"];
+var input1 = ["wrt", "wrf", "er", "ett", "rftt"]; //wertf
+var input2 = ["vlxpwiqbsg", "cpwqwqcd"];
+var input3 = ["z", "x"];
+var input4 = ["z", "z"];
+var input5 = ["aac", "aabb", "aaba"];
+var input6 = ["zy", "zx"];
+var input7 = ["a", "b", "a"];
 
 var alienOrder = function(words) {
 
@@ -47,8 +42,10 @@ var alienOrder = function(words) {
 
     words.forEach(chars => {
         var letter = chars[0];
+
+        if (chars.length === 1) return assignToGraph(letter, null); 
+        
         for (var j = 1; j < chars.length; j++) {
-            console.log(chars[j]);
             assignToGraph(letter, chars[j]);
             letter = chars[j];
         }
@@ -62,57 +59,58 @@ var alienOrder = function(words) {
             graph[cur] = {
                 value: cur,
                 next: next,
-                count: 1
+                count: 1,
+                loop: false
             };
-             console.log("graph[cur]="+JSON.stringify(graph[cur]));
+            if (graph[next] !== undefined) {
+                graph[next].loop = true;
+            }
+            console.log("graph[cur]U=" + JSON.stringify(graph[cur]));
         } else {
+            
             var node = graph[cur];
             node.count += 1;
-            if (node.next === next) {
-               
-            }else{
+            
+            if (node.next !== next) {
                 assignToGraph(node.next, next);
             }
         }
     }
 
     function prune(graph){
-        
-        var prune = true;
-        Object.keys(graph).forEach(key => {
-            if (prune && (graph[key].count === words.length)){
-                delete graph[key];
-            }else{
-                prune=false;                
-            }
-        });
+
     }
 
     function sort(graph) {
-        Object.keys(graph).forEach(key => {
-            if (final.indexOf(key) < 0 && final.indexOf(graph[key].next) < 0) {
-                final.push(key);
-                final.push(graph[key].next);
+        if (Object.keys(graph).length === 1) return;
+
+        var keys = Object.keys(graph);
+        var firstNode = graph[keys[0]];
+
+        final.push(firstNode.value);
+        final.push(firstNode.next);
+
+        for (var i = 1; i < keys.length; i++) {
+            var node = graph[keys[i]];
+            if (final.indexOf(node.value) > 0) {
+                if (final.indexOf(node.next) < 0) {
+                    final.push(node.next);
+                }
             } else {
-                if (final.indexOf(graph[key].next) < 0) {
-                    final.push(graph[key].next);
-                } else {
-                    if (final.indexOf(key) < 0) {
-                        var spliceIndex = final.indexOf(graph[key].next);
-                        var cutFinal = final.splice(spliceIndex, final.length);
-                        final.push(key);
-                        final = final.concat(cutFinal);
-                    }
+                if (final.indexOf(node.next) > 0) {
+                    var spliceIndex = final.indexOf(node.next);
+                    var spliceArray = final.splice(spliceIndex, final.length);
+                    final.push(node.value);
+                    final = final.concat(spliceArray);
                 }
             }
-           
-        })
+        }
     }
     prune(graph);
     sort(graph);
-    console.log(graph);
-    return final.join('');    
-    
-    
+
+    return final.join('');
 }
-console.log(alienOrder(input4));
+
+
+console.log(alienOrder(input5));
