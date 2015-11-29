@@ -36,7 +36,6 @@ var input2 = ["vlxpwiqbsg","cpwqwqcd"];
 var input3 = ["z","x"];
 var input3 = ["z","z"];
 var input4 = ["aac","aabb","aaba"];
-var input5 = ["zy","zx"];
 
 var alienOrder = function(words) {
 
@@ -49,6 +48,7 @@ var alienOrder = function(words) {
     words.forEach(chars => {
         var letter = chars[0];
         for (var j = 1; j < chars.length; j++) {
+            console.log(chars[j]);
             assignToGraph(letter, chars[j]);
             letter = chars[j];
         }
@@ -64,20 +64,13 @@ var alienOrder = function(words) {
                 next: next,
                 count: 1
             };
-             // console.log("graph[cur]="+JSON.stringify(graph[cur]));
+             console.log("graph[cur]="+JSON.stringify(graph[cur]));
         } else {
             var node = graph[cur];
             node.count += 1;
-            if (node.next !== next) {
-                // console.log("node.value="+node.value);
-                // console.log("node.next="+node.next);
-                // console.log("next="+next);
-
-                //bad
-                if (count++ > Object.keys(graph).length) {
-                    count = 0;
-                    return
-                }
+            if (node.next === next) {
+               
+            }else{
                 assignToGraph(node.next, next);
             }
         }
@@ -117,17 +110,9 @@ var alienOrder = function(words) {
     }
     prune(graph);
     sort(graph);
-
-    if (Object.keys(graph).length===0){
-        words.forEach(x=>{
-            if (final.indexOf(x) < 0 ){
-                final.push(x);
-            }
-        })
-    }
-
+    console.log(graph);
     return final.join('');    
     
     
 }
-console.log(alienOrder(input5));
+console.log(alienOrder(input4));
