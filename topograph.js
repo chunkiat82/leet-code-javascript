@@ -106,6 +106,7 @@ var alienOrder = function(words) {
             }
         }
     }
+    
     prune(graph);
     sort(graph);
 
