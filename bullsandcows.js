@@ -23,30 +23,33 @@ const getHint = function(secret, guess) {
     const sArr = secret.split('');
     const gArr = guess.split('');
 
-    const bulls = [];
-    const cows = [];
-    const temp = [];
+    const bulls = [0,0,0,0,0,0,0,0,0,0];
+    const cows = [0,0,0,0,0,0,0,0,0,0];
 
     gArr.forEach((g,gI)=>{
-        sArr.forEach((s,sI)=>{
-            if (g===s){
-                if (gI===sI){
-                    if (bulls.indexOf(g) < 0){
-                        bulls[bulls.length] = g;
-                    }    
-                } else {
-                    if (cows.indexOf(g) < 0){
-                        cows[cows.length] = g;
-                    }
-                }                
-            }
-        });
+        const sI = sArr.indexOf(g);
+        console.log(sI);
+        if (gI===sI || sArr[gI] === g){                    
+            bulls[g] += 1;
+        } else if (sI >= 0) {
+            cows[g] += 1;
+        }
+        
+        
     });
 
-    // console.log(bulls);
-    // console.log(cows);
-    // console.log(temp);
-    return  bulls.length + "A" + cows.length + "B";
+    let bull = 0;
+    let cow = 0;
+
+    for (let i=0;i<10;i++){
+        bull += bulls[i];
+        cow += cows[i];
+    }
+
+    console.log(bulls);
+    console.log(cows);
+
+    return  bull + "A" + cow + "B";
 };
 
 console.log(getHint("1807","7810"));
