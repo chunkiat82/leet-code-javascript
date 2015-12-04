@@ -23,36 +23,45 @@ const getHint = function(secret, guess) {
     const sArr = secret.split('');
     const gArr = guess.split('');
 
-    const bulls = [0,0,0,0,0,0,0,0,0,0];
-    const cows = [0,0,0,0,0,0,0,0,0,0];
+    const _secret = [0,0,0,0,0,0,0,0,0,0];
+    const _guess = [0,0,0,0,0,0,0,0,0,0];
+
+    var bull = 0;
+    var cow = 0;
 
     gArr.forEach((g,gI)=>{
-        const sI = sArr.indexOf(g);
-        console.log(sI);
-        if (gI===sI || sArr[gI] === g){                    
-            bulls[g] += 1;
-        } else if (sI >= 0) {
-            cows[g] += 1;
+        var s = sArr[gI];
+        // console.log(s);
+        _secret[s] += 1;
+         // console.log(_secret);
+        if (g === s){  
+            bull += 1;
+            _secret[s] -= 1;
+        } else {
+            _guess[g] += 1;
         }
-        
+         console.log("S");
+        console.log(_secret);
+         console.log("G");
+        console.log(_guess);
         
     });
 
-    let bull = 0;
-    let cow = 0;
+    
 
-    for (let i=0;i<10;i++){
-        bull += bulls[i];
-        cow += cows[i];
+    for (var i=0;i<10;i++){
+        cow += _secret[i] >= _guess[i] ? _guess[i]: _secret[i];
     }
-
-    console.log(bulls);
-    console.log(cows);
+    console.log("S");
+    console.log(_secret);
+    console.log("G");
+    console.log(_guess);
 
     return  bull + "A" + cow + "B";
 };
 
-console.log(getHint("1807","7810"));
+// console.log(getHint("1807","7810"));
 
-console.log(getHint("1123","0111"))
+console.log(getHint("1123","0111"));
 
+// console.log(getHint("1122","2211"));
