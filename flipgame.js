@@ -26,6 +26,4 @@ const generatePossibleNextMoves = (s) => {
 };
 
 console.log(generatePossibleNextMoves("++++"));
-
-
-//console.log(generatePossibleNextMoves("---+++-+++-+"));
+console.log(generatePossibleNextMoves("---+++-+++-+"));
