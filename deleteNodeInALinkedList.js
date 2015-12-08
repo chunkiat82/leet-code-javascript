@@ -14,6 +14,11 @@
  * @param {ListNode} node
  * @return {void} Do not return anything, modify node in-place instead.
  */
-var deleteNode = function(node) {
+const deleteNode = function(node) {
+    var nextNode = node.next;
+
+    if (nextNode === undefined) return;
     
+    node.next = nextNode.next;
+    node.val = nextNode.val;
 };
