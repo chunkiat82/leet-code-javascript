@@ -15,6 +15,11 @@
  * @param {string} word2
  * @return {number}
  */
-var shortestDistance = function(words, word1, word2) {
-    
+const shortestDistance = function(words, word1, word2) {
+    const index1 = words.indexOf(word1);
+    const index2 = words.indexOf(word2);
+
+    return Math.abs(index1-index2);
 };
+
+console.log(shortestDistance(["practice", "makes", "perfect", "coding", "makes"], "coding", "practice"));
