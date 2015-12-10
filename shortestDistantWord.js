@@ -18,7 +18,9 @@
 const shortestDistance = function(words, word1, word2) {
     const index1 = words.indexOf(word1);
     const index2 = words.indexOf(word2);
-
+    for (var i=0;i<words.length){
+    	if (i == -1)
+    }
     return Math.abs(index1-index2);
 };
 
