@@ -24,4 +24,4 @@ const shortestDistance = function(words, word1, word2) {
     return Math.abs(index1-index2);
 };
 
-console.log(shortestDistance(["practice", "makes", "perfect", "coding", "makes"], "coding", "practice"));
+console.log(shortestDistance(["practice", "makes", "perfect", "coding", "makes", "coding", "practice"));
