@@ -16,12 +16,22 @@
  * @return {number}
  */
 const shortestDistance = function(words, word1, word2) {
-    const index1 = words.indexOf(word1);
-    const index2 = words.indexOf(word2);
-    for (var i=0;i<words.length){
-    	if (i == -1)
-    }
-    return Math.abs(index1-index2);
+	var index = -1;
+	var distance = Number.MAX_SAFE_INTEGER;
+    words.forEach((word,i)=>{
+    	if (word === word1 || word === word2){
+    		if (index != -1 && words[index] !== word){
+    			// console.log(index);
+    			// console.log(words[index]);
+    			// console.log(word);
+    			distance = Math.min(distance, i - index)	
+    		}
+    		index = i;
+    	}    	
+    })
+    return distance;    
 };
 
-console.log(shortestDistance(["practice", "makes", "perfect", "coding", "makes", "coding", "practice"));
+// console.log(shortestDistance(["practice", "makes", "perfect", "coding", "makes"], "coding", "practice"));
+// console.log(shortestDistance(["a","c","b","a"],"a","b"));
+console.log(shortestDistance(["a","a","c","b"],"a","b"));
