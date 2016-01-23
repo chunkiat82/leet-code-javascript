@@ -29,7 +29,7 @@ var invertTree = function(root) {
     	if (!node && typeof node !== 'object' || node instanceof Array) {
 	    	return;
 	    }
-	    if (node.left === node.right === null){
+	    if (node === null || node.left === node.right === null){
 	    	return;
 	    }
 	    reversePrint(node.left);
