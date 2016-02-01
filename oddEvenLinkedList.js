@@ -99,3 +99,10 @@ var nodes = {
 };
 
 console.log(JSON.stringify(oddEvenList(nodes)));
+
+// var profiler = require('gc-profiler');
+
+// profiler.on('gc', function (info) {
+//   console.log(info);
+// });
+// console.log(process.memoryUsage());
