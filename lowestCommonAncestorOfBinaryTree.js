@@ -1,4 +1,4 @@
-// Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+'use strict';// Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
 //
 // According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
 
@@ -23,43 +23,69 @@ var prettyPrint = require('./prettyPrint');
 // deep recursion first
 var lowestCommonAncestor = function(root, a, b) {
 
-    var selected;
-
     function recursiveFind(node, p, q) {
 
-        if (node === null) return undefined;
+        if (node.left !== null) {
+            var left = recursiveFind(node.left, p, q);
+        }
 
-        if (node.val === p.val || node.val === q.val) {
-            if (selected === undefined) {
-                if (node.val === p.val) selected = p;
-                if (node.val === q.val) selected = q;
-            }
+        if (node.right !== null) {
+            var right = recursiveFind(node.right, p, q);
+        }
+
+        if (right === undefined || left === undefined) {
+            console.log('either or both side empty='+node.val);
             return node;
         }
 
-        var leftVal = recursiveFind(node.left, p, q);
-        var rightVal = recursiveFind(node.right, p, q);
+        console.log("left="+left.val);
+        console.log("right="+right.val);
 
-        if (leftVal && rightVal) {
-            if (leftVal.val === p.val && rightVal.val === q.val) {
-                selected = node;
-            } else if (leftVal.val < selected.val) {
-                selected = leftVal;
+        if (left.val === p.val){
+            if (right.val === q.val) {
+                console.log('found='+node.val);
+                return node;
             }
         }
 
-        return selected;
+        if (node.val === p.val ||  node.val === q.val) {
+            return node;
+        }
 
+        if (left.val === p.val || left.val === q.val) {
+            console.log("left="+left.val);
+            return left;
+        }
+
+        if (right.val === p.val || right.val === q.val) {
+            console.log("right="+right.val);
+            return right;
+        }
+
+        if (left.val > p.val) {
+            if (right.val > p.val) {
+                return left;
+            }
+        }
+
+        if (left.val < q.val) {
+            if (right.val < q.val) {
+                return right;
+            }
+        }
+
+        //return node;
     }
 
     if (a.val > b.val) {
-        recursiveFind(root, b, a);
+        return recursiveFind(root, b, a);
     } else {
-        recursiveFind(root, a, b);
+        return recursiveFind(root, a, b);
     }
 
-    return selected;
 };
+
+
 
 var nodes = [41, 37, 44, 24, 39, 42, 48, 1, 35, 38, 40, null, 43, 46, 49, 0, 2, 30, 36, null, null, null, null, null, null, 45, 47, null, null, null, null, null, 4, 29, 32, null, null, null, null, null, null, 3, 9, 26, null, 31, 34, null, null, 7, 11, 25, 27, null, null, 33, null, 6, 8, 10, 16, null, null, null, 28, null, null, 5, null, null, null, null, null, 15, 19, null, null, null, null, 12, null, 18, 20, null, 13, 17, null, null, 22, null, 14, null, null, 21, 23];
 
@@ -84,7 +110,8 @@ var testNode10 = {
         left: null,
         right: null
     },
-}
+};
+
 var testNode = {
     val: 6,
     left: {
@@ -122,19 +149,32 @@ var testNode = {
         }
     }
 }
-var testNodes = [6, 2, 8, 0, 4 , 7, 9, null, null, 3, 5];
+var testNodes = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5];
 
-// prettyPrint(createTree(nodes));
+var p = {
+    val: 5,
+    right: null,
+    left: null
+};
+var q = {
+    val: 0,
+    right: null,
+    left: null
+};
 
 var lowestCommonAncestor1 = function(root, p, q) {
     if (p.val < root.val && q.val < root.val) {
-        return lowestCommonAncestor(root.left, p, q);
+        return lowestCommonAncestor1(root.left, p, q);
     } else if (p.val > root.val && q.val > root.val) {
-        return lowestCommonAncestor(root.right, p, q);
+        return lowestCommonAncestor1(root.right, p, q);
     } else {
         return root;
     }
 };
+
+console.log('final='+lowestCommonAncestor(testNode, p, q).val);
+console.log('------');
+console.log('final1='+lowestCommonAncestor1(testNode, p, q).val);
 
 // prettyPrint(lowestCommonAncestor1(nodes, {val: 42 , right:null, left:null},  {val: 48 , right:null, left:null}).val);
 //
@@ -148,5 +188,13 @@ var lowestCommonAncestor1 = function(root, p, q) {
 // console.log(lowestCommonAncestor1(testNode, {val: 2 , right:null, left:null},  {val: 4 , right:null, left:null}).val);
 // console.log(lowestCommonAncestor1(testNode1, {val: 1 , right:null, left:null},  {val: 2 , right:null, left:null}).val);
 
-console.log(lowestCommonAncestor(testNode, {val: 4 , right:null, left:null},  {val: 0, right:null, left:null}).val);
-console.log(lowestCommonAncestor1(testNode, {val: 0 , right:null, left:null},  {val: 4, right:null, left:null}).val);
+
+// console.log(lowestCommonAncestor1(testNode, {
+//     val: 8,
+//     right: null,
+//     left: null
+// }, {
+//     val: 9,
+//     right: null,
+//     left: null
+// }).val);
