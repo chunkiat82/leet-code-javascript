@@ -33,17 +33,20 @@ var lowestCommonAncestor = function(root, a, b) {
             var right = recursiveFind(node.right, p, q);
         }
 
-        if (right === undefined || left === undefined) {
-            console.log('either or both side empty='+node.val);
-            return node;
+        // if (right === undefined || left === undefined) {
+        //     console.log('either or both side empty='+node.val);
+        //     return node;
+        // }
+        if (left){
+            console.log("left="+left.val);
+        }
+        if (right){
+            console.log("right="+right.val);
         }
 
-        console.log("left="+left.val);
-        console.log("right="+right.val);
-
-        if (left.val === p.val){
-            if (right.val === q.val) {
-                console.log('found='+node.val);
+        if (left && left.val === p.val){
+            if (right && right.val === q.val) {
+                console.log('found final='+node.val);
                 return node;
             }
         }
@@ -52,29 +55,29 @@ var lowestCommonAncestor = function(root, a, b) {
             return node;
         }
 
-        if (left.val === p.val || left.val === q.val) {
+        if (left && (left.val === p.val || left.val === q.val)) {
             console.log("left="+left.val);
             return left;
         }
 
-        if (right.val === p.val || right.val === q.val) {
+        if (right && (right.val === p.val || right.val === q.val)) {
             console.log("right="+right.val);
             return right;
         }
 
-        if (left.val > p.val) {
-            if (right.val > p.val) {
+        if (left && left.val > p.val) {
+            if (right && right.val > p.val) {
                 return left;
             }
         }
 
-        if (left.val < q.val) {
-            if (right.val < q.val) {
+        if (left && left.val < q.val) {
+            if (right && right.val < q.val) {
                 return right;
             }
         }
 
-        //return node;
+        return node;
     }
 
     if (a.val > b.val) {
@@ -152,12 +155,12 @@ var testNode = {
 var testNodes = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5];
 
 var p = {
-    val: 5,
+    val: 8,
     right: null,
     left: null
 };
 var q = {
-    val: 0,
+    val: 9,
     right: null,
     left: null
 };
@@ -171,7 +174,7 @@ var lowestCommonAncestor1 = function(root, p, q) {
         return root;
     }
 };
-
+//testNode = createTree(nodes);
 console.log('final='+lowestCommonAncestor(testNode, p, q).val);
 console.log('------');
 console.log('final1='+lowestCommonAncestor1(testNode, p, q).val);
